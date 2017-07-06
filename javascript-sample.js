@@ -1,22 +1,163 @@
 ((state, timeLeftFn) => {
     const targeting = getTargetingEnemies(state.arena)
 
-    if (targeting.length) {
+    const hp = state.arena[3][3].contents.hp
 
+    if (hp > 20) {
+        return attack(state)
+    } else {
+        return findFood(state.arena)
     }
-    return {
-        command: 'no',
-        state: {
-            hello: 'world'
-        }
-    };
 });
+
+const attack = (state) => {
+    
+}
+
+const findFood = (arena) => {
+    const food = getClosestFood(arena)
+
+    const orientation = arena[3][3].contents.orientation
+
+    return moveToward(food, orientation)
+}
+
+const moveToward = (coords, orientation) => {
+    if (orientation === 'n') {
+        if (coords[0] < 3) {
+            return {
+                command: { action: 'move' },
+                state: {}
+            }
+        } 
+        if (coords[0] > 3) {
+            return {
+                command: {
+                    action: 'turn',
+                    direction: 'about-face'
+                }
+            }
+        }
+        if (coords[0] === 3) {
+            let cmd = { 
+                command: { action: 'turn' },
+                state: {}
+            }
+            if (coords[1] < 3) {
+                cmd.command.direction = 'left'
+            } else {
+                cmd.command.direction = 'right'
+            }
+            return cmd
+        }
+    } else if (orientation === 's') {
+        if (coords[0] > 3) {
+            return {
+                command: { action: 'move' },
+                state: {}
+            }
+        } 
+        if (coords[0] < 3) {
+            return {
+                command: {
+                    action: 'turn',
+                    direction: 'about-face'
+                }
+            }
+        }
+        if (coords[0] === 3) {
+            let cmd = { 
+                command: { action: 'turn' },
+                state: {}
+            }
+            if (coords[1] < 3) {
+                cmd.command.direction = 'right'
+            } else {
+                cmd.command.direction = 'left'
+            }
+            return cmd
+        }
+    } else if (orientation === 'e') {
+        if (coords[1] > 3) {
+            return {
+                command: { action: 'move' },
+                state: {}
+            }
+        } 
+        if (coords[1] < 3) {
+            return {
+                command: {
+                    action: 'turn',
+                    direction: 'about-face'
+                }
+            }
+        }
+        if (coords[1] === 3) {
+            let cmd = { 
+                command: { action: 'turn' },
+                state: {}
+            }
+            if (coords[0] < 3) {
+                cmd.command.direction = 'left'
+            } else {
+                cmd.command.direction = 'right'
+            }
+            return cmd
+        }
+    } else {
+        if (coords[1] < 3) {
+            return {
+                command: { action: 'move' },
+                state: {}
+            }
+        } 
+        if (coords[1] > 3) {
+            return {
+                command: {
+                    action: 'turn',
+                    direction: 'about-face'
+                }
+            }
+        }
+        if (coords[1] === 3) {
+            let cmd = { 
+                command: { action: 'turn' },
+                state: {}
+            }
+            if (coords[0] < 3) {
+                cmd.command.direction = 'right'
+            } else {
+                cmd.command.direction = 'left'
+            }
+            return cmd
+        }
+    }
+}
+
+
+const getClosestFood = (arena) => {
+    let food = []
+    let minDist = 1000
+
+    for (let i = 0; i < arena.length; i++) {
+        for (let j = 0; j < arena[0].length; j++) {
+            if (arena[i][j].contents.type === 'food') {
+                const dist = Math.abs(i-3) + Math.abs(j-3)
+                if (dist < minDist) {
+                    food = [i, j]
+                }
+            }
+        }
+    }
+
+    return food
+}
 
 const getTargetingEnemies = (arena) => {
     let enemies = [];
     for (let i = 0; i < arena.length; i++) {
         for (let j = 0; j < arena[0].length; j++) {
-            if ((i === 3 || j === 3) && arena[i][j].contents.type === 'wombat' && arena[i][j].contents.type === 'wombat')  {
+            if ((i === 3 || j === 3) && arena[i][j].contents.type === 'wombat' && arena[i][j].contents.type === 'zakano')  {
                 if (
                     i < 3 && arena[i][j].contents.orientation === 's' || 
                     i > 3 && arena[i][j].contents.orientation === 'n' || 
