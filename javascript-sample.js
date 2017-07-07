@@ -3,7 +3,14 @@
 
     const hp = state.arena[3][3].contents.hp
 
+    // If our health is low, find food
     if (hp > 20) {
+        // If there are wombats in range
+        // If we're facing the wombat OR zakano
+            // Shoot him
+        // If we're not facing any wombats OR Zakano
+            // Turn
+            // Then shoot him
         return attack(state)
     } else {
         return findFood(state.arena)
