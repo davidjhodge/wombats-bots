@@ -1,3 +1,5 @@
+"use strict";
+
 ((state, timeLeftFn) => {
     const targeting = getTargetingEnemies(state.arena)
 
