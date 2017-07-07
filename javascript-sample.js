@@ -19,6 +19,27 @@
     }
 });
 
+const isSafeMove = (command, arena) => {
+    if (command !== 'move') {
+        return !getTargetingEnemies(arena).length
+    }
+
+    const orientation = arena[3][3].contents.orientation
+
+    const targetCoords = 
+        orientation === 'n' ? [2, 3] :
+        orientation === 's' ? [4, 3] :
+        orientation === 'e' ? [3, 4] :
+        [3, 2]
+
+    const targetType = arena[targetCoords[0], targetCoords[1]].contents.type
+    if (targetType && targetType !== 'food' && targetType !== 'smoke') {
+        return false
+    }
+
+    return true
+}
+
 const attack = (state) => {
 
     // If enemy is in line of sight, shoot
@@ -35,6 +56,13 @@ const attack = (state) => {
 
 const findFood = (arena) => {
     const food = getClosestFood(arena)
+
+    if (!food || !food.length) {
+        return {
+            command: { action: 'move', metadata: {} },
+            state: {}
+        }
+    }
 
     const orientation = arena[3][3].contents.orientation
 
