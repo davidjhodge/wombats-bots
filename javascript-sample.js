@@ -1,3 +1,5 @@
+"use strict";
+
 ((state, timeLeftFn) => {
     const targeting = getTargetingEnemies(state.arena)
 
@@ -43,7 +45,7 @@ const moveToward = (coords, orientation) => {
     if (orientation === 'n') {
         if (coords[0] < 3) {
             return {
-                command: { action: 'move' },
+                command: { action: 'move', metadata: {} },
                 state: {}
             }
         } 
@@ -51,53 +53,54 @@ const moveToward = (coords, orientation) => {
             return {
                 command: {
                     action: 'turn',
-                    direction: 'about-face'
-                }
+                    metadata: { direction: 'about-face' },
+                }, 
+                state: {}
             }
         }
         if (coords[0] === 3) {
             let cmd = { 
-                command: { action: 'turn' },
-                state: {}
+                command: { action: 'turn', metadata: {} },
+                state: {},
             }
             if (coords[1] < 3) {
-                cmd.command.direction = 'left'
+                cmd.command.metadata.direction = 'left'
             } else {
-                cmd.command.direction = 'right'
+                cmd.command.metadata.direction = 'right'
             }
             return cmd
         }
     } else if (orientation === 's') {
         if (coords[0] > 3) {
             return {
-                command: { action: 'move' },
-                state: {}
+                command: { action: 'move', metadata: {} },
+                state: {},
             }
         } 
         if (coords[0] < 3) {
             return {
                 command: {
                     action: 'turn',
-                    direction: 'about-face'
+                    metadata: { direction: 'about-face' }
                 }
             }
         }
         if (coords[0] === 3) {
             let cmd = { 
-                command: { action: 'turn' },
+                command: { action: 'turn', metadata: {} },
                 state: {}
             }
             if (coords[1] < 3) {
-                cmd.command.direction = 'right'
+                cmd.command.metadata.direction = 'right'
             } else {
-                cmd.command.direction = 'left'
+                cmd.command.metadata.direction = 'left'
             }
             return cmd
         }
     } else if (orientation === 'e') {
         if (coords[1] > 3) {
             return {
-                command: { action: 'move' },
+                command: { action: 'move', metadata: {} },
                 state: {}
             }
         } 
@@ -105,26 +108,26 @@ const moveToward = (coords, orientation) => {
             return {
                 command: {
                     action: 'turn',
-                    direction: 'about-face'
+                    metadata: { direction: 'about-face' }
                 }
             }
         }
         if (coords[1] === 3) {
             let cmd = { 
-                command: { action: 'turn' },
+                command: { action: 'turn', metadata: {} },
                 state: {}
             }
             if (coords[0] < 3) {
-                cmd.command.direction = 'left'
+                cmd.command.metadata.direction = 'left'
             } else {
-                cmd.command.direction = 'right'
+                cmd.command.metadata.direction = 'right'
             }
             return cmd
         }
     } else {
         if (coords[1] < 3) {
             return {
-                command: { action: 'move' },
+                command: { action: 'move', metadata: {} },
                 state: {}
             }
         } 
@@ -132,19 +135,19 @@ const moveToward = (coords, orientation) => {
             return {
                 command: {
                     action: 'turn',
-                    direction: 'about-face'
+                    metadata: { direction: 'about-face' }
                 }
             }
         }
         if (coords[1] === 3) {
             let cmd = { 
-                command: { action: 'turn' },
+                command: { action: 'turn', metadata: {} },
                 state: {}
             }
             if (coords[0] < 3) {
-                cmd.command.direction = 'right'
+                cmd.command.metadata.direction = 'right'
             } else {
-                cmd.command.direction = 'left'
+                cmd.command.metadata.direction = 'left'
             }
             return cmd
         }
