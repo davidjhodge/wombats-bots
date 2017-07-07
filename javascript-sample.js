@@ -18,7 +18,17 @@
 });
 
 const attack = (state) => {
+
+    // If enemy is in line of sight, shoot
+
+    // Else if enemy is in same direction, move forward,
+
+    // Else if enemy is not in same direction toward
     
+    return {
+     'command': { action: 'shoot', metadata: {} },
+     'state': {}
+    }
 }
 
 const findFood = (arena) => {
