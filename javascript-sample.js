@@ -5,6 +5,9 @@
 
     const hp = state.arena[3][3].contents.hp
 
+    const orientation = state.arena[3][3].contents.orientation
+
+    let command = {}
     // If our health is low, find food
     if (hp > 20) {
         // If there are wombats in range
@@ -13,13 +16,49 @@
         // If we're not facing any wombats OR Zakano
             // Turn
             // Then shoot him
-        return attack(state)
+        command = attack(state)
     } else {
-        return findFood(state.arena)
+        command = findFood(state.arena)
+    }
+
+    if (isSafeMove(command.action, orientation)) {
+        return command
+    } else {
+        return {
+            command: { 
+                action: 'turn', 
+                metadata: { direction: 'right'}},
+            state: {}
+        }
     }
 });
 
+<<<<<<< HEAD
 const attack = (coords, orientation) => {
+=======
+const isSafeMove = (command, arena) => {
+    if (command !== 'move') {
+        return !getTargetingEnemies(arena).length
+    }
+
+    const orientation = arena[3][3].contents.orientation
+
+    const targetCoords = 
+        orientation === 'n' ? [2, 3] :
+        orientation === 's' ? [4, 3] :
+        orientation === 'e' ? [3, 4] :
+        [3, 2]
+
+    const targetType = arena[targetCoords[0], targetCoords[1]].contents.type
+    if (targetType && targetType !== 'food' && targetType !== 'smoke') {
+        return false
+    }
+
+    return true
+}
+
+const attack = (state) => {
+>>>>>>> 95f8538a1f03e4f9b20b6209cb8f687775959905
 
     // If enemy is in line of sight, shoot
     // Get Orientation
@@ -71,6 +110,13 @@ const shoot = () => {
 
 const findFood = (arena) => {
     const food = getClosestFood(arena)
+
+    if (!food || !food.length) {
+        return {
+            command: { action: 'move', metadata: {} },
+            state: {}
+        }
+    }
 
     const orientation = arena[3][3].contents.orientation
 
