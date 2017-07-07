@@ -19,14 +19,50 @@
     }
 });
 
-const attack = (state) => {
+const attack = (coords, orientation) => {
 
     // If enemy is in line of sight, shoot
+    // Get Orientation
+    const orientation = arena[3][3].contents.orientation
 
-    // Else if enemy is in same direction, move forward,
+    const row = coords[0]
+    const column = coords[1]
 
-    // Else if enemy is not in same direction toward
-    
+    if (orientation === 'n') {
+        // Shoot if we're facing the enemy and in the same column
+        if (column === 3 && row < 3) {
+            return shoot()
+        } else {
+            moveToward(coords, orientation)
+        }
+
+    } else if (orientation === 's') {
+
+        if (column === 3 && row > 3) {
+            return shoot()
+        } else {
+            moveToward(coords, orientation)
+        } 
+
+    } else if (orientation === 'e') {
+
+        if (row === 3 && column > 3) {
+            return shoot()
+        } else {
+            moveToward(coords, orientation)
+        } 
+
+    } else if (orientation === 'w') {
+
+        if (row === 3 && column < 3) {
+            return shoot()
+        } else {
+            moveToward(coords, orientation)
+        } 
+    }
+}
+
+const shoot = () => {
     return {
      'command': { action: 'shoot', metadata: {} },
      'state': {}
