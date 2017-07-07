@@ -5,6 +5,9 @@
 
     const hp = state.arena[3][3].contents.hp
 
+    const orientation = state.arena[3][3].contents.orientation
+
+    let command = {}
     // If our health is low, find food
     if (hp > 20) {
         // If there are wombats in range
@@ -13,9 +16,20 @@
         // If we're not facing any wombats OR Zakano
             // Turn
             // Then shoot him
-        return attack(state)
+        command = attack(state)
     } else {
-        return findFood(state.arena)
+        command = findFood(state.arena)
+    }
+
+    if (isSafeMove(command.action, orientation)) {
+        return command
+    } else {
+        return {
+            command: { 
+                action: 'turn', 
+                metadata: { direction: 'right'}},
+            state: {}
+        }
     }
 });
 
