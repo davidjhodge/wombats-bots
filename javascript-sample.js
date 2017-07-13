@@ -54,7 +54,7 @@ const isSafeMove = (command, arena) => {
     return true
 }
 
-const attack = (state) => {
+const attack = (coords, orientation) => {
 
     // If enemy is in line of sight, shoot
     // Get Orientation
@@ -68,7 +68,7 @@ const attack = (state) => {
         if (column === 3 && row < 3) {
             return shoot()
         } else {
-            moveToward(coords, orientation)
+            return moveToward(coords, orientation)
         }
 
     } else if (orientation === 's') {
@@ -76,7 +76,7 @@ const attack = (state) => {
         if (column === 3 && row > 3) {
             return shoot()
         } else {
-            moveToward(coords, orientation)
+            return moveToward(coords, orientation)
         }
 
     } else if (orientation === 'e') {
@@ -84,7 +84,7 @@ const attack = (state) => {
         if (row === 3 && column > 3) {
             return shoot()
         } else {
-            moveToward(coords, orientation)
+            return moveToward(coords, orientation)
         }
 
     } else if (orientation === 'w') {
@@ -92,7 +92,7 @@ const attack = (state) => {
         if (row === 3 && column < 3) {
             return shoot()
         } else {
-            moveToward(coords, orientation)
+            return moveToward(coords, orientation)
         }
     }
 }
