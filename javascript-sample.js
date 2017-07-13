@@ -25,17 +25,14 @@
         return command
     } else {
         return {
-            command: { 
-                action: 'turn', 
+            command: {
+                action: 'turn',
                 metadata: { direction: 'right'}},
             state: {}
         }
     }
 });
 
-<<<<<<< HEAD
-const attack = (coords, orientation) => {
-=======
 const isSafeMove = (command, arena) => {
     if (command !== 'move') {
         return !getTargetingEnemies(arena).length
@@ -43,7 +40,7 @@ const isSafeMove = (command, arena) => {
 
     const orientation = arena[3][3].contents.orientation
 
-    const targetCoords = 
+    const targetCoords =
         orientation === 'n' ? [2, 3] :
         orientation === 's' ? [4, 3] :
         orientation === 'e' ? [3, 4] :
@@ -58,7 +55,6 @@ const isSafeMove = (command, arena) => {
 }
 
 const attack = (state) => {
->>>>>>> 95f8538a1f03e4f9b20b6209cb8f687775959905
 
     // If enemy is in line of sight, shoot
     // Get Orientation
@@ -81,7 +77,7 @@ const attack = (state) => {
             return shoot()
         } else {
             moveToward(coords, orientation)
-        } 
+        }
 
     } else if (orientation === 'e') {
 
@@ -89,7 +85,7 @@ const attack = (state) => {
             return shoot()
         } else {
             moveToward(coords, orientation)
-        } 
+        }
 
     } else if (orientation === 'w') {
 
@@ -97,7 +93,7 @@ const attack = (state) => {
             return shoot()
         } else {
             moveToward(coords, orientation)
-        } 
+        }
     }
 }
 
@@ -130,18 +126,18 @@ const moveToward = (coords, orientation) => {
                 command: { action: 'move', metadata: {} },
                 state: {}
             }
-        } 
+        }
         if (coords[0] > 3) {
             return {
                 command: {
                     action: 'turn',
                     metadata: { direction: 'about-face' },
-                }, 
+                },
                 state: {}
             }
         }
         if (coords[0] === 3) {
-            let cmd = { 
+            let cmd = {
                 command: { action: 'turn', metadata: {} },
                 state: {},
             }
@@ -158,7 +154,7 @@ const moveToward = (coords, orientation) => {
                 command: { action: 'move', metadata: {} },
                 state: {},
             }
-        } 
+        }
         if (coords[0] < 3) {
             return {
                 command: {
@@ -168,7 +164,7 @@ const moveToward = (coords, orientation) => {
             }
         }
         if (coords[0] === 3) {
-            let cmd = { 
+            let cmd = {
                 command: { action: 'turn', metadata: {} },
                 state: {}
             }
@@ -185,7 +181,7 @@ const moveToward = (coords, orientation) => {
                 command: { action: 'move', metadata: {} },
                 state: {}
             }
-        } 
+        }
         if (coords[1] < 3) {
             return {
                 command: {
@@ -195,7 +191,7 @@ const moveToward = (coords, orientation) => {
             }
         }
         if (coords[1] === 3) {
-            let cmd = { 
+            let cmd = {
                 command: { action: 'turn', metadata: {} },
                 state: {}
             }
@@ -212,7 +208,7 @@ const moveToward = (coords, orientation) => {
                 command: { action: 'move', metadata: {} },
                 state: {}
             }
-        } 
+        }
         if (coords[1] > 3) {
             return {
                 command: {
@@ -222,7 +218,7 @@ const moveToward = (coords, orientation) => {
             }
         }
         if (coords[1] === 3) {
-            let cmd = { 
+            let cmd = {
                 command: { action: 'turn', metadata: {} },
                 state: {}
             }
@@ -261,9 +257,9 @@ const getTargetingEnemies = (arena) => {
         for (let j = 0; j < arena[0].length; j++) {
             if ((i === 3 || j === 3) && arena[i][j].contents.type === 'wombat' && arena[i][j].contents.type === 'zakano')  {
                 if (
-                    i < 3 && arena[i][j].contents.orientation === 's' || 
-                    i > 3 && arena[i][j].contents.orientation === 'n' || 
-                    j < 3 && arena[i][j].contents.orientation === 'e' || 
+                    i < 3 && arena[i][j].contents.orientation === 's' ||
+                    i > 3 && arena[i][j].contents.orientation === 'n' ||
+                    j < 3 && arena[i][j].contents.orientation === 'e' ||
                     j > 3 && arena[i][j].contents.orientation === 'w') {
                         let enemy = enemies[i][j].contents;
                         enemy.coordinates = [i, j]
@@ -276,7 +272,7 @@ const getTargetingEnemies = (arena) => {
     return enemies
 }
 
-const getOutOfTheWay = (enemies, wombat) => {  
+const getOutOfTheWay = (enemies, wombat) => {
     const moveDirections = new Set(['n', 's', 'e', 'w']);
     for (let i = 0; i < enemies.length; i++) {
         directions.delete(enemies[i].orientation)
@@ -284,7 +280,7 @@ const getOutOfTheWay = (enemies, wombat) => {
 
     if (moveDirections.size === 0) {
         // TODO: we're fucked
-    } 
+    }
 
     const reverseOrientation = flipOrientation(wombat.contents.orientation)
 
@@ -318,7 +314,7 @@ const flipOrientation = (orientation) => {
             return 'w'
         default:
             return 'e'
-    }   
+    }
 }
 
 // Takes current orientation and target orientation and gives a turn direction
