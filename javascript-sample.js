@@ -54,21 +54,23 @@ const isSafeMove = (command, arena) => {
     return true
 }
 
-const attack = (coords, orientation) => {
+const attack = (arena, orientation) => {
 
     // If enemy is in line of sight, shoot
     // Get Orientation
     const orientation = arena[3][3].contents.orientation
 
-    const row = coords[0]
-    const column = coords[1]
+    const row = target[0]
+    const column = target[1]
+
+    const target = getClosestEnemy(arena)
 
     if (orientation === 'n') {
         // Shoot if we're facing the enemy and in the same column
         if (column === 3 && row < 3) {
             return shoot()
         } else {
-            return moveToward(coords, orientation)
+            return moveToward(target, orientation)
         }
 
     } else if (orientation === 's') {
@@ -76,7 +78,7 @@ const attack = (coords, orientation) => {
         if (column === 3 && row > 3) {
             return shoot()
         } else {
-            return moveToward(coords, orientation)
+            return moveToward(target, orientation)
         }
 
     } else if (orientation === 'e') {
@@ -84,7 +86,7 @@ const attack = (coords, orientation) => {
         if (row === 3 && column > 3) {
             return shoot()
         } else {
-            return moveToward(coords, orientation)
+            return moveToward(target, orientation)
         }
 
     } else if (orientation === 'w') {
@@ -92,7 +94,7 @@ const attack = (coords, orientation) => {
         if (row === 3 && column < 3) {
             return shoot()
         } else {
-            return moveToward(coords, orientation)
+            return moveToward(target, orientation)
         }
     }
 }
@@ -249,6 +251,24 @@ const getClosestFood = (arena) => {
     }
 
     return food
+}
+
+const getClosestEnemy = (arena) => {
+    let enemy = []
+    let minDist = 1000
+
+    for (let i = 0; i < arena.length; i++) {
+        for (let j = 0; j < arena[0].length; j++) {
+            if (arena[i][j].contents.type === 'wombat' || arena[i][j].contents.type === 'zakano') {
+                const dist = Math.abs(i-3) + Math.abs(j-3)
+                if (dist < minDist) {
+                    enemy = [i, j]
+                }
+            }
+        }
+    }
+
+    return enemy
 }
 
 const getTargetingEnemies = (arena) => {
