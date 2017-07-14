@@ -16,7 +16,7 @@
         // If we're not facing any wombats OR Zakano
             // Turn
             // Then shoot him
-        command = attack(state)
+        command = attack(state.arena, orientation)
     } else {
         command = findFood(state.arena)
     }
@@ -57,13 +57,10 @@ const isSafeMove = (command, arena) => {
 const attack = (arena, orientation) => {
 
     // If enemy is in line of sight, shoot
-    // Get Orientation
-    const orientation = arena[3][3].contents.orientation
+    const targetEnemy = getClosestEnemy(arena)
 
-    const row = target[0]
-    const column = target[1]
-
-    const target = getClosestEnemy(arena)
+    const row = targetEnemy[0]
+    const column = targetEnemy[1]
 
     if (orientation === 'n') {
         // Shoot if we're facing the enemy and in the same column
@@ -233,7 +230,6 @@ const moveToward = (coords, orientation) => {
         }
     }
 }
-
 
 const getClosestFood = (arena) => {
     let food = []
